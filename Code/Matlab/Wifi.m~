@@ -1,0 +1,61 @@
+clc
+clear
+format long
+jammer = 0:0.1:1;
+
+fileCount = 11;
+
+ping00 = readtable("wifidata/ping00");
+ping01 = readtable("wifidata/ping01");
+ping02 = readtable("wifidata/ping02");
+ping03 = readtable("wifidata/ping03");
+ping04 = readtable("wifidata/ping04");
+ping05 = readtable("wifidata/ping05");
+ping06 = readtable("wifidata/ping06");
+ping07 = readtable("wifidata/ping07");
+ping08 = readtable("wifidata/ping08");
+ping09 = readtable("wifidata/ping09");
+ping10 = readtable("wifidata/ping10");
+
+pingPackets = zeros(1,fileCount);
+pingMaxRtt = zeros(1,fileCount);
+pingMinRtt = zeros(1,fileCount);
+pingAvgRtt = zeros(1,fileCount);
+
+
+pingPackets(1) = size(table2array(ping00(:,13)),1);
+pingPackets(2) = size(table2array(ping01(:,13)),1);
+pingPackets(3) = size(table2array(ping02(:,13)),1);
+pingPackets(4) = size(table2array(ping03(:,13)),1);
+pingPackets(5) = size(table2array(ping04(:,13)),1);
+pingPackets(6) = size(table2array(ping05(:,13)),1);
+pingPackets(7) = size(table2array(ping06(:,13)),1);
+pingPackets(8) = size(table2array(ping07(:,13)),1);
+
+pingAvgRtt(1) = mean(table2array(ping00(:,13)));
+pingAvgRtt(2) = mean(table2array(ping01(:,13)));
+pingAvgRtt(3) = mean(table2array(ping02(:,13)));
+pingAvgRtt(4) = mean(table2array(ping03(:,13)));
+pingAvgRtt(5) = mean(table2array(ping04(:,13)));
+pingAvgRtt(6) = mean(table2array(ping05(:,13)));
+pingAvgRtt(7) = mean(table2array(ping06(:,13)));
+pingAvgRtt(8) = mean(table2array(ping07(:,13)));
+
+
+
+
+
+for i=1:length(pingPackets)
+    pingPackets(i) = 1000-pingPackets(i); 
+end
+
+
+
+plot(jammer, pingPackets, 'b')
+hold on
+title("ping packet loss plotted against jamming noise")
+ylabel("Packets lost")
+xlabel("Noise")
+hold off
+shg
+
